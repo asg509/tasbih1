@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مسبحة إلكترونية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Amiri', serif;
+        }
+        
+        .modern-bg {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #bbf7d0 100%);
+            position: relative;
+        }
+        
+        .modern-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg width='160' height='160' viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%2322c55e' stroke-width='1.5' opacity='0.12'%3E%3Cpath d='M80 20 L100 40 L120 20 L140 40 L120 60 L140 80 L120 100 L140 120 L120 140 L100 120 L80 140 L60 120 L40 140 L20 120 L40 100 L20 80 L40 60 L20 40 L40 20 L60 40 Z'/%3E%3Cpath d='M80 40 L100 60 L80 80 L60 60 Z'/%3E%3Cpath d='M80 80 L100 100 L80 120 L60 100 Z'/%3E%3C/g%3E%3C/svg%3E"),
+                url("data:image/svg+xml,%3Csvg width='90' height='90' viewBox='0 0 90 90' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%2316a34a' stroke-width='1' opacity='0.1'%3E%3Cpath d='M45 5 L55 25 L75 15 L65 35 L85 45 L65 55 L75 75 L55 65 L45 85 L35 65 L15 75 L25 55 L5 45 L25 35 L15 15 L35 25 Z'/%3E%3Ccircle cx='45' cy='45' r='25'/%3E%3Ccircle cx='45' cy='45' r='15'/%3E%3Ccircle cx='45' cy='45' r='8'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: 160px 160px, 90px 90px;
+            background-position: 0 0, 80px 80px;
+        }
+        
+        .modern-bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg width='140' height='140' viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%2322c55e' stroke-width='1' opacity='0.08'%3E%3Cpath d='M70 10 L85 35 L110 20 L95 45 L120 60 L95 75 L110 100 L85 85 L70 110 L55 85 L30 100 L45 75 L20 60 L45 45 L30 20 L55 35 Z'/%3E%3Cpath d='M70 30 L80 50 L70 70 L60 50 Z'/%3E%3Cpath d='M50 70 L70 80 L90 70 L70 60 Z'/%3E%3Cpath d='M70 110 L80 90 L70 70 L60 90 Z'/%3E%3Cpath d='M90 70 L70 60 L50 70 L70 80 Z'/%3E%3C/g%3E%3C/svg%3E"),
+                url("data:image/svg+xml,%3Csvg width='70' height='70' viewBox='0 0 70 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%2322c55e' opacity='0.06'%3E%3Cpath d='M35 5 L42 22 L59 15 L52 32 L69 39 L52 46 L59 63 L42 56 L35 73 L28 56 L11 63 L18 46 L1 39 L18 32 L11 15 L28 22 Z'/%3E%3Ccircle cx='35' cy='35' r='3'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: 140px 140px, 70px 70px;
+            background-position: 70px 70px, 0 0;
+        }
+        
+        .counter-button {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            box-shadow: 
+                0 20px 40px rgba(5, 150, 105, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: none;
+        }
+        
+        .counter-button:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 
+                0 25px 50px rgba(5, 150, 105, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, #065f46 0%, #064e3b 100%);
+        }
+        
+        .counter-button:active {
+            transform: translateY(-2px) scale(0.98);
+            box-shadow: 
+                0 15px 30px rgba(5, 150, 105, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        
+        .reset-button {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #10b981;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.15);
+        }
+        
+        .reset-button:hover {
+            background: #10b981;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.25);
+        }
+        
+        .modern-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+        }
+        
+        .glow {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(34, 197, 94, 0.3); }
+            to { box-shadow: 0 0 30px rgba(34, 197, 94, 0.6); }
+        }
+        
+        .pulse-animation {
+            animation: pulse 0.3s ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .tab-button {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+        
+        .tab-button:hover {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: #10b981;
+        }
+        
+        .tab-button.active:hover {
+            background: #059669;
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="min-h-screen modern-bg">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-12 relative z-10">
+            <div class="inline-block modern-card rounded-2xl p-8">
+                <h1 class="text-5xl font-bold text-emerald-800 mb-3 tracking-tight">مسبحة إلكترونية</h1>
+                <p class="text-emerald-600 text-xl font-medium">سبحان الله وبحمده • سبحان الله العظيم</p>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="text-center mb-8 relative z-10">
+            <div class="inline-flex bg-white/80 backdrop-blur-sm rounded-2xl p-2 border border-emerald-200">
+                <button class="tab-button active px-6 py-3 rounded-xl font-bold text-emerald-700 mx-1" data-page="tasbih">
+                    التسبيح
+                </button>
+                <button class="tab-button px-6 py-3 rounded-xl font-bold text-emerald-700 mx-1" data-page="takbir">
+                    التكبير
+                </button>
+                <button class="tab-button px-6 py-3 rounded-xl font-bold text-emerald-700 mx-1" data-page="istighfar">
+                    الاستغفار
+                </button>
+                <button class="tab-button px-6 py-3 rounded-xl font-bold text-emerald-700 mx-1" data-page="hamd">
+                    الحمد
+                </button>
+            </div>
+        </div>
+
+
+
+        <!-- Pages Container -->
+        <div class="max-w-md mx-auto relative z-10">
+            
+            <!-- Tasbih Page -->
+            <div id="tasbih-page" class="page active">
+                <!-- Counter Display -->
+                <div class="text-center mb-10">
+                    <div class="modern-card rounded-full w-56 h-56 mx-auto flex items-center justify-center glow">
+                        <div class="text-center">
+                            <div id="tasbih-counter" class="text-7xl font-bold text-emerald-800 mb-2 tracking-tight">0</div>
+                            <div class="text-emerald-600 text-base font-medium">سبحان الله</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Counter Button -->
+                <div class="text-center mb-8">
+                    <button id="tasbih-button" class="counter-button text-white text-3xl font-bold w-40 h-40 rounded-full">
+                    </button>
+                </div>
+
+                <!-- Reset Button -->
+                <div class="text-center mb-10">
+                    <button id="tasbih-reset" class="reset-button text-emerald-700 font-bold px-10 py-4 rounded-2xl text-xl">
+                        تصفير العداد
+                    </button>
+                </div>
+            </div>
+
+            <!-- Takbir Page -->
+            <div id="takbir-page" class="page">
+                <!-- Counter Display -->
+                <div class="text-center mb-10">
+                    <div class="modern-card rounded-full w-56 h-56 mx-auto flex items-center justify-center glow">
+                        <div class="text-center">
+                            <div id="takbir-counter" class="text-7xl font-bold text-emerald-800 mb-2 tracking-tight">0</div>
+                            <div class="text-emerald-600 text-base font-medium">الله أكبر</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Counter Button -->
+                <div class="text-center mb-8">
+                    <button id="takbir-button" class="counter-button text-white text-3xl font-bold w-40 h-40 rounded-full">
+                    </button>
+                </div>
+
+                <!-- Reset Button -->
+                <div class="text-center mb-10">
+                    <button id="takbir-reset" class="reset-button text-emerald-700 font-bold px-10 py-4 rounded-2xl text-xl">
+                        تصفير العداد
+                    </button>
+                </div>
+            </div>
+
+            <!-- Istighfar Page -->
+            <div id="istighfar-page" class="page">
+                <!-- Counter Display -->
+                <div class="text-center mb-10">
+                    <div class="modern-card rounded-full w-56 h-56 mx-auto flex items-center justify-center glow">
+                        <div class="text-center">
+                            <div id="istighfar-counter" class="text-7xl font-bold text-emerald-800 mb-2 tracking-tight">0</div>
+                            <div class="text-emerald-600 text-base font-medium">أستغفر الله</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Counter Button -->
+                <div class="text-center mb-8">
+                    <button id="istighfar-button" class="counter-button text-white text-3xl font-bold w-40 h-40 rounded-full">
+                    </button>
+                </div>
+
+                <!-- Reset Button -->
+                <div class="text-center mb-10">
+                    <button id="istighfar-reset" class="reset-button text-emerald-700 font-bold px-10 py-4 rounded-2xl text-xl">
+                        تصفير العداد
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hamd Page -->
+            <div id="hamd-page" class="page">
+                <!-- Counter Display -->
+                <div class="text-center mb-10">
+                    <div class="modern-card rounded-full w-56 h-56 mx-auto flex items-center justify-center glow">
+                        <div class="text-center">
+                            <div id="hamd-counter" class="text-7xl font-bold text-emerald-800 mb-2 tracking-tight">0</div>
+                            <div class="text-emerald-600 text-base font-medium">الحمد لله</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Counter Button -->
+                <div class="text-center mb-8">
+                    <button id="hamd-button" class="counter-button text-white text-3xl font-bold w-40 h-40 rounded-full">
+                    </button>
+                </div>
+
+                <!-- Reset Button -->
+                <div class="text-center mb-10">
+                    <button id="hamd-reset" class="reset-button text-emerald-700 font-bold px-10 py-4 rounded-2xl text-xl">
+                        تصفير العداد
+                    </button>
+                </div>
+            </div>
+
+            <!-- Summary Card -->
+            <div class="modern-card rounded-2xl p-8 mt-8">
+                <h3 class="text-2xl font-bold text-emerald-800 text-center mb-6">إجمالي الأذكار</h3>
+                <div class="grid grid-cols-2 gap-4 text-center">
+                    <div class="p-4 bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl border border-emerald-200">
+                        <p class="text-emerald-800 font-bold text-lg">سبحان الله</p>
+                        <p id="total-tasbih" class="text-emerald-600 text-2xl font-bold">0</p>
+                    </div>
+                    <div class="p-4 bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl border border-emerald-200">
+                        <p class="text-emerald-800 font-bold text-lg">الله أكبر</p>
+                        <p id="total-takbir" class="text-emerald-600 text-2xl font-bold">0</p>
+                    </div>
+                    <div class="p-4 bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl border border-emerald-200">
+                        <p class="text-emerald-800 font-bold text-lg">أستغفر الله</p>
+                        <p id="total-istighfar" class="text-emerald-600 text-2xl font-bold">0</p>
+                    </div>
+                    <div class="p-4 bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl border border-emerald-200">
+                        <p class="text-emerald-800 font-bold text-lg">الحمد لله</p>
+                        <p id="total-hamd" class="text-emerald-600 text-2xl font-bold">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-12 relative z-10">
+            <div class="modern-card rounded-2xl p-6 inline-block">
+                <p class="text-emerald-700 text-lg font-medium">
+                    ﴿ وَاذْكُر رَّبَّكَ كَثِيرًا وَسَبِّحْ بِالْعَشِيِّ وَالْإِبْكَارِ ﴾
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Counters for each dhikr type
+        let counters = {
+            tasbih: 0,
+            takbir: 0,
+            istighfar: 0,
+            hamd: 0
+        };
+
+        // Load saved counts from localStorage
+        Object.keys(counters).forEach(type => {
+            const saved = localStorage.getItem(`${type}Count`);
+            if (saved) {
+                counters[type] = parseInt(saved);
+                document.getElementById(`${type}-counter`).textContent = counters[type];
+                document.getElementById(`total-${type}`).textContent = counters[type];
+            }
+        });
+
+        // Tab navigation
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const pages = document.querySelectorAll('.page');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const targetPage = this.getAttribute('data-page');
+                
+                // Remove active class from all tabs and pages
+                tabButtons.forEach(tab => tab.classList.remove('active'));
+                pages.forEach(page => page.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding page
+                this.classList.add('active');
+                document.getElementById(`${targetPage}-page`).classList.add('active');
+            });
+        });
+
+        // Counter functionality for each dhikr type
+        Object.keys(counters).forEach(type => {
+            const counterDisplay = document.getElementById(`${type}-counter`);
+            const countButton = document.getElementById(`${type}-button`);
+            const resetButton = document.getElementById(`${type}-reset`);
+            const totalDisplay = document.getElementById(`total-${type}`);
+
+            // Count button functionality
+            countButton.addEventListener('click', function() {
+                counters[type]++;
+                counterDisplay.textContent = counters[type];
+                totalDisplay.textContent = counters[type];
+                
+                // Add pulse animation
+                counterDisplay.classList.add('pulse-animation');
+                setTimeout(() => {
+                    counterDisplay.classList.remove('pulse-animation');
+                }, 300);
+                
+                // Save to localStorage
+                localStorage.setItem(`${type}Count`, counters[type]);
+                
+                // Special effects for milestones
+                if (counters[type] % 33 === 0) {
+                    // Flash green for multiples of 33
+                    document.body.style.background = 'linear-gradient(135deg, #dcfce7, #bbf7d0)';
+                    setTimeout(() => {
+                        document.body.style.background = '';
+                    }, 500);
+                }
+                
+                if (counters[type] === 100) {
+                    // Special celebration for 100
+                    showCelebration(type);
+                }
+            });
+
+            // Reset button functionality
+            resetButton.addEventListener('click', function() {
+                counters[type] = 0;
+                counterDisplay.textContent = counters[type];
+                totalDisplay.textContent = counters[type];
+                localStorage.setItem(`${type}Count`, counters[type]);
+                
+                // Add reset animation
+                counterDisplay.style.transform = 'scale(0.8)';
+                setTimeout(() => {
+                    counterDisplay.style.transform = 'scale(1)';
+                }, 200);
+            });
+        });
+
+        // Celebration function for reaching 100
+        function showCelebration(type) {
+            const dhikrNames = {
+                tasbih: 'التسبيح',
+                takbir: 'التكبير',
+                istighfar: 'الاستغفار',
+                hamd: 'الحمد'
+            };
+            
+            const celebration = document.createElement('div');
+            celebration.innerHTML = `ماشاء الله! وصلت إلى 100 في ${dhikrNames[type]}`;
+            celebration.className = 'fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-600 text-white px-8 py-4 rounded-lg text-xl font-bold z-50 animate-bounce';
+            document.body.appendChild(celebration);
+            
+            setTimeout(() => {
+                celebration.remove();
+            }, 3000);
+        }
+
+        // Keyboard support for active page
+        document.addEventListener('keydown', function(event) {
+            const activePage = document.querySelector('.page.active');
+            if (activePage && event.code === 'Space') {
+                event.preventDefault();
+                const activeButton = activePage.querySelector('.counter-button');
+                if (activeButton) {
+                    activeButton.click();
+                }
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9795edfad4b3788c',t:'MTc1NjkwOTY2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
